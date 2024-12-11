@@ -1,0 +1,31 @@
+# Run me a second example
+
+name: Example2
+
+on:
+  push:
+    branches: [main]
+
+  workflow_dispatch:
+jobs:
+  say-hello-job:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - uses: actions/hello-world-docker-action@v1
+        with:
+              who-to-greet: 'Shivangi James'
+
+  say-hello-job2:
+      strategy:
+        matrix:
+         os: [ubuntu-latest, macos-latest, windows-latest]
+      runs-on: ${{ matrix.os}}
+      steps:
+        - uses: actions/checkout@v2
+        - id: step1
+          uses: sormuras/hello-world-java-action@v1
+          with:
+              who-to-greet: 'Shivangi the Octocat'
+        - run: echo random number${{ steps.step1.outputs.random-number }}
+          shell: bash
